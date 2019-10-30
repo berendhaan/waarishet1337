@@ -110,15 +110,7 @@
 		#app.light {
 			background: #fff;
 		}
-
-		#app.dark {
-			background: #000;
-		}
-
-		#app.dark .devider {
-			border-color: #333;
-		}
-
+		
 		/* Transitions */
 		#app, .devider {
 			transition: border-color ease .3s,
@@ -135,6 +127,16 @@
 			}
 			.countries .country {
 				flex-direction: column;
+			}
+		}
+
+		@media (prefers-color-scheme: dark) {
+			#app {
+				background: #000;
+			}
+
+			#app .devider {
+				border-color: #333;
 			}
 		}
 	</style>
