@@ -128,7 +128,7 @@
 
 		<div class="footer">
 			<div>Waar is het <b>1337</b> wordt u aangeboden door: </div>
-			<div><h4>Infocaster en Jovero</h4></div>
+			<div><h4>Products en Jovero</h4></div>
 		</div>
 	</div>
 
@@ -165,6 +165,16 @@
 			}
 			return map;
 		}, []);
+		
+		let country = null;
+		var nlIdx = countryCounts.findIndex(c => c.country == "NL");
+
+		if(nlIdx > -1) {
+			country = countryCounts[nlIdx];
+		} else {
+			let randIdx = Math.floor(Math.random() * (countryCounts.length - 1));
+			country = countryCounts[randIdx];
+		}
 
 		var highestRankdCountry = countryCounts.reduce((r, v) => {
 			if (!r.country || r.count <= v.count) {
@@ -173,8 +183,8 @@
 			return r;
 		}, {});
 
-		if (highestRankdCountry.country) {
-			printUnicodeFlagByCountryCode(highestRankdCountry.country)
+		if (country) {
+			printUnicodeFlagByCountryCode(country.country)
 		}
 
 		function findCountryByTimeZone(timeZoneName) {
@@ -197,8 +207,7 @@
 
 			activeFlagImage.src = `flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg`;
 			activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a>`;
-			otherCountriesText.innerHTML = `En 30 andere landen`;
-			// document.write(`<h1><a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a></h1><img src='flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg' />`)
+			otherCountriesText.innerHTML = `En ${countryCounts.length - 1} andere landen`;			
 		}
 	</script>
 </body>
