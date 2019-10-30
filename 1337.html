@@ -1,71 +1,96 @@
 <html lang="en-US">
+
 <head>
-<title>HTML Smiley Emoji</title>
-<meta charset="utf-8">
-<script type="text/javascript" src="data.js"></script>
-<script type="text/javascript" src="flags.js"></script>
-<script type="text/javascript" src="https://momentjs.com/downloads/moment.min.js"></script>
-<script type="text/javascript" src="https://momentjs.com/downloads/moment-timezone-with-data-10-year-range.min.js"></script>
-<script type="text/javascript">
+	<title>HTML Smiley Emoji</title>
+	<meta charset="utf-8">
+	<script type="text/javascript"
+			src="data.js"></script>
+	<script type="text/javascript"
+			src="flags.js"></script>
+	<script type="text/javascript"
+			src="timezones.js"></script>
+	<script type="text/javascript">
 
-let date = new Date;
-let countries = new Array();
+		let date = new Date;
+		let countries = new Array();
 
-moment.tz.names().forEach((timeZone) => {	
-    let strTime = date.toLocaleString("en-US", {timeZone: `${timeZone}`});
-    
-	let localDate = new Date(strTime);
-	var localHours = localDate.getHours();
-	var localMinutes = localDate.getMinutes();
-	
-	var partyTime = localHours == 13 && localMinutes == 37;
-	var almostTime = localHours == 13 && localMinutes <= 37;
-	var nextTime = localHours == 12 && localMinutes > 37;
+		aryIannaTimeZones.forEach((timeZone) => {
+			let strTime = date.toLocaleString("en-US", { timeZone: `${timeZone}` });
 
-	if(almostTime || nextTime) {
-		let country = findCountryByTimeZone(timeZone);
-		if(country) {			
-			countries.push(country);
+			let localDate = new Date(strTime);
+			var localHours = localDate.getHours();
+			var localMinutes = localDate.getMinutes();
+
+			var partyTime = localHours == 13 && localMinutes == 37;
+			var almostTime = localHours == 13 && localMinutes <= 37;
+			var nextTime = localHours == 12 && localMinutes > 37;
+
+			if (almostTime || nextTime) {
+				let country = findCountryByTimeZone(timeZone);
+				if (country) {
+					countries.push(country);
+				}
+			}
+		});
+
+		var countryCounts = countries.reduce((map, country) => {
+			var idx = map.findIndex(e => e.country == country);
+			if (idx > -1) {
+				map[idx].count++;
+			} else {
+				map.push({ country: country, count: 1, });
+			}
+			return map;
+		}, []);
+
+		var highestRankdCountry = countryCounts.reduce((r, v) => {
+			if (!r.country || r.count <= v.count) {
+				r = v;
+			}
+			return r;
+		}, {});
+
+		if (highestRankdCountry.country) {
+			printUnicodeFlagByCountryCode(highestRankdCountry.country)
 		}
-	}
-});
 
-var countryCounts = countries.reduce((map, country) => {	
-	var idx = map.findIndex(e => e.country == country);
-	if(idx > -1) {
-		map[idx].count++;
-	} else {
-		map.push({country: country, count: 1});
-	}
-	return map;
-}, []);
+		function findCountryByTimeZone(timeZoneName) {
+			var country = timeZoneCountries.timezones[timeZoneName];
 
-var highestRankdCountry = countryCounts.reduce((r, v) => {
-	if(!r.country || r.count <= v.count) {
-		r = v;
-	}
-	return r;
-}, {});
+			if (country && country.c) {
+				return country.c;
+			}
+		}
 
-if(highestRankdCountry.country) {
-	printUnicodeFlagByCountryCode(highestRankdCountry.country)
-}
+		function printUnicodeFlagByCountryCode(countryCode) {
+			if (!countryCode) {
+				return;
+			}
 
-function findCountryByTimeZone(timeZoneName) {
-	var country =  timeZoneCountries.timezones[timeZoneName];
+			let flagCode = flags.find(f => f.code == countryCode);
+			document.write(`<h1><a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a></h1><img src='flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg' />`)
+		}
+	</script>
+	<style>
+		h1 {
+			font-size: 48px;
+			text-align: center;
+		}
 
-	if(country && country.c) {
-		return country.c;
-	}
-}
+		h1 a {
+			color: #000;
+			text-decoration: underline;
+		}
 
-function printUnicodeFlagByCountryCode(countryCode) {
-	if(!countryCode) {
-		return;
-	}
 
-	let flagCode = flags.filter(f => f.code == countryCode)[0];
-	document.write("<img src='flags/" + flagCode.unicode.replace(/U\+/g, "").replace(" ", "-") + ".svg' />" )
-}
-</script>
+		img {
+			display: block;
+			height: 100vh;
+			margin: 0 auto;
+		}
+	</style>
 </head>
+
+<body>
+
+</body>
