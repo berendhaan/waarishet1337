@@ -1,14 +1,137 @@
 <html lang="en-US">
 
 <head>
-	<title>HTML Smiley Emoji</title>
+	<title>Waar is het 1337?</title>
 	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+
 	<script type="text/javascript"
 			src="data.js"></script>
 	<script type="text/javascript"
 			src="flags.js"></script>
 	<script type="text/javascript"
 			src="timezones.js"></script>
+	<style>
+		html, body {
+			padding: 0;
+			margin: 0;
+			color: #aaa;
+			font-family: Calibri;
+		}
+
+		*, *:before, *:after {
+			box-sizing: border-box;
+		}
+
+		h1, h2, h3, h4, h5, h6 {
+			margin: 0;
+			padding: 0;
+			color: #3B854A;
+		}
+
+		.box {
+			display: flex;
+			flex-direction: column;
+			height: 100vh;
+		}
+
+		.devider {
+			border-top: 2px #EBEBEB solid;
+			margin: 1rem 20%;
+			width: 60%;
+			height: 1px;
+		}
+
+		.leet {
+			display: flex;
+			justify-content: center;
+			flex-grow: 1;
+		}
+
+		.leet img {
+			max-height: 100%;
+			max-width: 100%;
+		}
+
+		.countries {
+			display: flex;
+			justify-content: center;
+			height: 15rem;
+			padding: 5rem 0;
+		}
+
+		.countries .country {
+			display: flex;
+		}
+
+		.countries .country .flag {
+			margin-right: 2rem;
+			height: 4.25rem;
+			width: 4.25rem;
+			position: relative;
+		}
+
+		.countries .country .flag img {
+			position: absolute;
+			top: 0;
+			left: 0;
+		}
+
+		.countries .country h1 a {
+			font-size: 3rem;
+			line-height: 3rem;
+			text-decoration: none;
+			color: #3B854A;
+			text-transform: uppercase;
+		}
+
+		.countries .country h4 {
+			text-transform: uppercase;
+			font-size: 1.25rem;
+			line-height: 1.25rem;
+			color: #B1C8BE;
+		}
+
+		.footer {
+			padding: 3rem 0 1rem 0;
+			text-align: center;
+		}
+
+		.footer h5 {
+			font-size: .875rem;
+			font-weight: bold;
+		}
+	</style>
+</head>
+
+<body>
+	<div class="box">
+		<div class="leet">
+			<img src="1337.svg" alt="1337">
+		</div>
+		<div class="devider"></div>
+
+		<div class="countries">
+			<div class="country">
+				<div class="flag">
+					<img id="activeFlagImage" alt="Country">
+				</div>
+				<div>
+					<h1 id="activeFlagText">[Country]</h1>
+					<h4 id="otherCountriesText">En 30 andere landen</h4>
+				</div>
+			</div>
+		</div>
+
+		<div class="devider"></div>
+
+		<div class="footer">
+			<div>Waar is het <b>1337</b> wordt u aangeboden door: </div>
+			<div><h4>Infocaster en Jovero</h4></div>
+		</div>
+	</div>
+
 	<script type="text/javascript">
 
 		let date = new Date;
@@ -68,29 +191,15 @@
 			}
 
 			let flagCode = flags.find(f => f.code == countryCode);
-			document.write(`<h1><a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a></h1><img src='flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg' />`)
+			const activeFlagImage = document.querySelector('#activeFlagImage');
+			const activeFlagText = document.querySelector('#activeFlagText');
+			const otherCountriesText = document.querySelector('#otherCountriesText');
+
+			activeFlagImage.src = `flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg`;
+			activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a>`;
+			otherCountriesText.innerHTML = `En 30 andere landen`;
+			// document.write(`<h1><a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a></h1><img src='flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg' />`)
 		}
 	</script>
-	<style>
-		h1 {
-			font-size: 48px;
-			text-align: center;
-		}
-
-		h1 a {
-			color: #000;
-			text-decoration: underline;
-		}
-
-
-		img {
-			display: block;
-			height: 100vh;
-			margin: 0 auto;
-		}
-	</style>
-</head>
-
-<body>
-
 </body>
+</html>
