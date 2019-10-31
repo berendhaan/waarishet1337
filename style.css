@@ -20,7 +20,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     height: 100vh;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 .devider {
@@ -37,7 +37,6 @@ h1, h2, h3, h4, h5, h6 {
     background: url('1337-light.svg');
     background-repeat: no-repeat;
     background-position: center;
-    background-size: contain;
     min-height: 20rem;
 }
 
@@ -117,6 +116,10 @@ h1, h2, h3, h4, h5, h6 {
 
 /* Media */
 @media screen and (max-width: 560px) {
+    .leet {
+        background-size: contain;
+    }
+
     .countries {
         height: auto;
         padding: 1rem 20%;

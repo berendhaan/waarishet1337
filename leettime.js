@@ -1,6 +1,10 @@
 const LeetTime = function () {
     let darkModeInterval = null;
     let darkModeIntervalTime = 500; // Should be slightly more then the transition time
+    let logoInterval = null;
+    let logoIntervalTime = darkModeIntervalTime * 2;
+    let activeLogo = 'leet';
+    let switches = 0;
 
     this.switchDarkMode = () => {
         const app = document.querySelector('#app');
@@ -30,16 +34,34 @@ const LeetTime = function () {
 
         app.setAttribute('data-mode', mode);
         app.setAttribute('class', mode);
-        logo.style.backgroundImage = `url('1337-${mode}.svg')`;
+        logo.style.backgroundImage = `url('${activeLogo}-${mode}.svg')`;
     };
 
-    this.start = ({ darkMode }) => {
-        if (darkMode) {
+    this.switchLogo = () => {
+        activeLogo = activeLogo === 'leet' ? '1337' : 'leet';
+    };
+
+    this.switch = () => {
+        if (switches % 2 === 0) {
+            this.switchLogo();
+        }
+
+        this.switchDarkMode();
+        switches++;
+    };
+
+    this.start = (options) => {
+        if (options.indexOf('darkMode') > -1) {
             darkModeInterval = setInterval(this.switchDarkMode, darkModeIntervalTime);
+        }
+
+        if (options.indexOf('logo') > -1) {
+            logoInterval = setInterval(this.switchLogo, logoIntervalTime);
         }
     };
 
     this.stop = () => {
         clearInterval(darkModeInterval);
+        clearInterval(logoInterval);
     }
 };
