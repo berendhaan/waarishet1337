@@ -3,6 +3,7 @@ html, body {
     margin: 0;
     color: #aaa;
     font-family: Calibri;
+    overflow: hidden;
 }
 
 *, *:before, *:after {
@@ -19,6 +20,7 @@ h1, h2, h3, h4, h5, h6 {
     display: flex;
     flex-direction: column;
     height: 100vh;
+    overflow-y: scroll;
 }
 
 .devider {
@@ -35,6 +37,8 @@ h1, h2, h3, h4, h5, h6 {
     background: url('1337-light.svg');
     background-repeat: no-repeat;
     background-position: center;
+    background-size: contain;
+    min-height: 20rem;
 }
 
 .countries {
@@ -42,7 +46,7 @@ h1, h2, h3, h4, h5, h6 {
     flex-direction: row;
     justify-content: center;
     height: 15rem;
-    padding: 5rem 0;
+    padding: 5rem 20%;
 }
 
 .countries .country {
@@ -111,10 +115,13 @@ h1, h2, h3, h4, h5, h6 {
     transition: background-image ease .3s;
 }
 
+/* Media */
 @media screen and (max-width: 560px) {
     .countries {
-        height: 20rem;
+        height: auto;
+        padding: 1rem 20%;
     }
+
     .countries .country {
         flex-direction: column;
     }
