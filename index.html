@@ -110,7 +110,15 @@
 		#app.light {
 			background: #fff;
 		}
-		
+
+		#app.dark {
+			background: #000;
+		}
+
+		#app.dark .devider {
+			border-color: #333;
+		}
+
 		/* Transitions */
 		#app, .devider {
 			transition: border-color ease .3s,
@@ -127,24 +135,6 @@
 			}
 			.countries .country {
 				flex-direction: column;
-			}
-		}
-
-		#leetLogo {
-			background-image: url('1337-light.svg');
-		}
-
-		@media (prefers-color-scheme: dark) {
-			#app {
-				background: #000;
-			}
-
-			#app .devider {
-				border-color: #333;
-			}
-
-			#leetLogo {
-				background-image: url('1337-dark.svg');
 			}
 		}
 	</style>
@@ -210,7 +200,7 @@
 			}
 			return map;
 		}, []);
-		
+
 		let country = null;
 		var nlIdx = countryCounts.findIndex(c => c.country == "NL");
 
@@ -256,6 +246,7 @@
 		}
 
 		const leetTime = new LeetTime();
+		leetTime.detectDarkMode();
 		// leetTime.start({ darkMode: true });
 		// setTimeout(() => {
 		// 	leetTime.stop();
