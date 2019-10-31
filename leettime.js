@@ -19,6 +19,11 @@ const LeetTime = function () {
         this.setDarkMode(newMode);
     };
 
+    this.detectDarkMode = () => {
+        const mode = window.matchMedia("(prefers-color-scheme: dark)").matches ? 'dark' : 'light';
+        this.setDarkMode(mode);
+    }
+
     this.setDarkMode = (mode) => {
         const app = document.querySelector('#app');
         const logo = document.querySelector('#leetLogo');
