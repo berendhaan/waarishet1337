@@ -95,6 +95,10 @@
             Notification.requestPermission();
         }
 
+        const leetTime = new LeetTime();
+        leetTime.detectDarkMode();
+        leetTime.registerLeetEvent(() => { new Notification("Het is 1337!! #Fuifje") });
+
         function findCountryByTimeZone(timeZoneName) {
             let country = timeZoneCountries.timezones[timeZoneName];
 
@@ -117,14 +121,6 @@
             activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a>`;
             otherCountriesText.innerHTML = `En ${countryCounts.length - 1} andere landen`;			
         }
-
-        const leetTime = new LeetTime();
-        leetTime.detectDarkMode();
-
-        leetTime.registerLeetEvent(() => { new Notification("Het is 1337!! #Fuifje") });
-
-        document.addEventListener('click', leetTime.switch);
-        // leetTime.start(['darkMode', 'logo']);
     </script>
 </body>
 </html>
