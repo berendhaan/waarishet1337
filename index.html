@@ -114,7 +114,7 @@
             const otherCountriesText = document.querySelector('#otherCountriesText');
 
             activeFlagImage.src = `flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg`;
-            activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a>`;
+            activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank' rel='noreferrer'>${flagCode.name}</a>`;
             otherCountriesText.innerHTML = `En ${countryCounts.length - 1} andere landen`;			
         }
     </script>
