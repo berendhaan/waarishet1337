@@ -50,6 +50,20 @@ const LeetTime = function () {
         switches++;
     };
 
+    this.registerLeetEvent = function(callback) {
+        const date = new Date();
+        date.setHours(13);
+        date.setMinutes(37);
+
+        let diff = date - new Date();
+
+        if(diff < 0) {
+            diff += (24 * 60 * 60 * 1000);
+        }
+        
+        setTimeout(callback, diff);
+    };
+
     this.start = (options) => {
         if (options.indexOf('darkMode') > -1) {
             darkModeInterval = setInterval(this.switchDarkMode, darkModeIntervalTime);

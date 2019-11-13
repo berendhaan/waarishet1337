@@ -91,6 +91,10 @@
 
         printUnicodeFlagByCountryCode(country.country);
 
+        if (Notification.permission !== 'denied') {
+            Notification.requestPermission();
+        }
+
         function findCountryByTimeZone(timeZoneName) {
             let country = timeZoneCountries.timezones[timeZoneName];
 
@@ -116,6 +120,8 @@
 
         const leetTime = new LeetTime();
         leetTime.detectDarkMode();
+
+        leetTime.registerLeetEvent(() => { new Notification("Het is 1337!! #Fuifje") });
 
         document.addEventListener('click', leetTime.switch);
         // leetTime.start(['darkMode', 'logo']);
