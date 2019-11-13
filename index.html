@@ -1,133 +1,124 @@
 <html lang="en-US">
 
 <head>
-	<title>Waar is het 1337?</title>
-	<meta charset="utf-8">
+    <title>Waar is het 1337?</title>
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
 
-	<link rel="prefetch" href="1337-light.svg"/>
+    <link rel="prefetch" href="1337-light.svg"/>
 
-	<script type="text/javascript"
-			src="data.js"></script>
-	<script type="text/javascript"
-			src="flags.js"></script>
-	<script type="text/javascript"
-			src="timezones.js"></script>
-	<script src="leettime.js"></script>
-	<link rel="stylesheet" href="style.css">
+    <script type="text/javascript"
+            src="data.js"></script>
+    <script type="text/javascript"
+            src="flags.js"></script>
+    <script type="text/javascript"
+            src="timezones.js"></script>
+    <script src="leettime.js"></script>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
-	<div id="app">
-		<div class="box">
-			<div id="leetLogo" class="leet"></div>
-			<div class="devider"></div>
+    <div id="app">
+        <div class="box">
+            <div id="leetLogo" class="leet"></div>
+            <div class="devider"></div>
 
-			<div class="countries">
-				<div class="country">
-					<div class="flag">
-						<img id="activeFlagImage" alt="Country">
-					</div>
-					<div>
-						<h1 id="activeFlagText">[Country]</h1>
-						<h4 id="otherCountriesText">En 30 andere landen</h4>
-					</div>
-				</div>
-			</div>
+            <div class="countries">
+                <div class="country">
+                    <div class="flag">
+                        <img id="activeFlagImage" alt="Country">
+                    </div>
+                    <div>
+                        <h1 id="activeFlagText">[Country]</h1>
+                        <h4 id="otherCountriesText">En 30 andere landen</h4>
+                    </div>
+                </div>
+            </div>
 
-			<div class="devider"></div>
+            <div class="devider"></div>
 
-			<div class="footer">
-				<div>Waar is het <b>1337</b> wordt u aangeboden door: </div>
-				<div><h4>Products en Jovero</h4></div>
-			</div>
-		</div>
-	</div>
+            <div class="footer">
+                <div>Waar is het <b>1337</b> wordt u aangeboden door: </div>
+                <div><h4>Products en Jovero</h4></div>
+            </div>
+        </div>
+    </div>
 
-	<script type="text/javascript">
+    <script type="text/javascript">
 
-		let date = new Date;
-		let countries = new Array();
+        let countries = [];
 
-		aryIannaTimeZones.forEach((timeZone) => {
-			let strTime = date.toLocaleString("en-US", { timeZone: `${timeZone}` });
+        aryIannaTimeZones.forEach((timeZone) => {
+            const strTime = new Date().toLocaleString("en-US", { timeZone: `${timeZone}` });
 
-			let localDate = new Date(strTime);
-			var localHours = localDate.getHours();
-			var localMinutes = localDate.getMinutes();
+            const localDate = new Date(strTime);
+            const localHours = localDate.getHours();
+            const localMinutes = localDate.getMinutes();
 
-			var partyTime = localHours == 13 && localMinutes == 37;
-			var almostTime = localHours == 13 && localMinutes <= 37;
-			var nextTime = localHours == 12 && localMinutes > 37;
+            const partyTime = localHours == 13 && localMinutes == 37;
+            const almostTime = localHours == 13 && localMinutes <= 37;
+            const nextTime = localHours == 12 && localMinutes > 37;
 
-			if (almostTime || nextTime) {
-				let country = findCountryByTimeZone(timeZone);
-				if (country) {
-					countries.push(country);
-				}
-			}
-		});
+            if (almostTime || nextTime) {
+                let country = findCountryByTimeZone(timeZone);
+                
+                if (country) {
+                    countries.push(country);
+                }
+            }
+        });
 
-		var countryCounts = countries.reduce((map, country) => {
-			var idx = map.findIndex(e => e.country == country);
-			if (idx > -1) {
-				map[idx].count++;
-			} else {
-				map.push({ country: country, count: 1, });
-			}
-			return map;
-		}, []);
+        const countryCounts = countries.reduce((map, country) => {
+            var idx = map.findIndex(e => e.country == country);
+            if (idx > -1) {
+                map[idx].count++;
+            } else {
+                map.push({ country: country, count: 1, });
+            }
+            return map;
+        }, []);
 
-		let country = null;
-		var nlIdx = countryCounts.findIndex(c => c.country == "NL");
+        let country;
+        const nlIdx = countryCounts.findIndex(c => c.country == "NL");
 
-		if(nlIdx > -1) {
-			country = countryCounts[nlIdx];
-		} else {
-			let randIdx = Math.floor(Math.random() * (countryCounts.length));
-			country = countryCounts[randIdx];
-		}
+        if(nlIdx > -1) {
+            country = countryCounts[nlIdx];
+        } else {
+            const randomIdx = Math.floor(Math.random() * (countryCounts.length));
+            country = countryCounts[randomIdx];
+        }
 
-		var highestRankdCountry = countryCounts.reduce((r, v) => {
-			if (!r.country || r.count <= v.count) {
-				r = v;
-			}
-			return r;
-		}, {});
+        printUnicodeFlagByCountryCode(country.country);
 
-		if (country) {
-			printUnicodeFlagByCountryCode(country.country)
-		}
+        function findCountryByTimeZone(timeZoneName) {
+            let country = timeZoneCountries.timezones[timeZoneName];
 
-		function findCountryByTimeZone(timeZoneName) {
-			var country = timeZoneCountries.timezones[timeZoneName];
+            if (country && country.c) {
+                return country.c;
+            }
+        }
 
-			if (country && country.c) {
-				return country.c;
-			}
-		}
+        function printUnicodeFlagByCountryCode(countryCode) {
+            if (!countryCode) {
+                return;
+            }
 
-		function printUnicodeFlagByCountryCode(countryCode) {
-			if (!countryCode) {
-				return;
-			}
+            const flagCode = flags.find(f => f.code == countryCode);
+            const activeFlagImage = document.querySelector('#activeFlagImage');
+            const activeFlagText = document.querySelector('#activeFlagText');
+            const otherCountriesText = document.querySelector('#otherCountriesText');
 
-			let flagCode = flags.find(f => f.code == countryCode);
-			const activeFlagImage = document.querySelector('#activeFlagImage');
-			const activeFlagText = document.querySelector('#activeFlagText');
-			const otherCountriesText = document.querySelector('#otherCountriesText');
+            activeFlagImage.src = `flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg`;
+            activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a>`;
+            otherCountriesText.innerHTML = `En ${countryCounts.length - 1} andere landen`;			
+        }
 
-			activeFlagImage.src = `flags/${flagCode.unicode.replace(/U\+/g, "").replace(" ", "-")}.svg`;
-			activeFlagText.innerHTML = `<a href="https://www.google.com/maps/place/${flagCode.name}/" target='_blank'>${flagCode.name}</a>`;
-			otherCountriesText.innerHTML = `En ${countryCounts.length - 1} andere landen`;			
-		}
+        const leetTime = new LeetTime();
+        leetTime.detectDarkMode();
 
-		const leetTime = new LeetTime();
-		leetTime.detectDarkMode();
-
-		document.addEventListener('click', leetTime.switch);
-		// leetTime.start(['darkMode', 'logo']);
-	</script>
+        document.addEventListener('click', leetTime.switch);
+        // leetTime.start(['darkMode', 'logo']);
+    </script>
 </body>
 </html>
